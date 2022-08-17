@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:rest_api_flutter/models/users.dart';
 import 'dart:convert' as json;
@@ -11,17 +12,17 @@ class ApiServices {
       final String jsonBody = response.body;
       final int statusCode = response.statusCode;
 
-      if (statusCode != 200 || jsonBody == null) {
-        print(response.reasonPhrase);
-        throw new Exception("Lỗi load api");
+      if (statusCode != 200) {
+        if (kDebugMode) {
+          print(response.reasonPhrase);
+        }
+        throw Exception("Lỗi load api");
       }
 
-      final JsonDecoder _decoder = new JsonDecoder();
-      final useListContainer = _decoder.convert(jsonBody);
+      const JsonDecoder decoder = JsonDecoder();
+      final useListContainer = decoder.convert(jsonBody);
       final List userList = useListContainer['results'];
-      return userList
-          .map((contactRaw) => new User.fromJson(contactRaw))
-          .toList();
+      return userList.map((contactRaw) => User.fromJson(contactRaw)).toList();
     });
   }
 }

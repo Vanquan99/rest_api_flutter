@@ -7,10 +7,10 @@ class User {
   User({this.name, this.picture, this.email, this.phone});
 
   User.fromJson(Map<String, dynamic> json)
-      : name = new Name.fromJson(json['name']),
-        picture = new Picture.fromJson(json['picture']),
-        email = json['email'],
-        phone = json['phone'];
+      : this.name = new Name.fromJson(json['name']),
+        this.picture = new Picture.fromJson(json['picture']),
+        this.email = json['email'],
+        this.phone = json['phone'];
 }
 
 class Name {
@@ -20,8 +20,8 @@ class Name {
   Name({this.last, this.first});
 
   Name.fromJson(Map<String, dynamic> json)
-      : last = json['last'],
-        first = json['first'];
+      : this.last = json['last'],
+        this.first = json['first'];
 }
 
 class Picture {

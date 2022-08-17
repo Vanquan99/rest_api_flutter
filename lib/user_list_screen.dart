@@ -1,10 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rest_api_flutter/data_sources/api_services.dart';
-
-import 'models/users.dart';
+import 'package:rest_api_flutter/models/users.dart';
 
 class UserListScreen extends StatefulWidget {
+  const UserListScreen({Key? key}) : super(key: key);
+
   @override
   _UserListScreenState createState() => _UserListScreenState();
 }
@@ -20,22 +21,21 @@ class _UserListScreenState extends State<UserListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Danh sách"),
+        title: const Text("Danh sách"),
         centerTitle: true,
       ),
       body: Container(
-        padding: EdgeInsets.only(left: 10),
+        padding: const EdgeInsets.only(left: 10),
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.height,
         child: FutureBuilder<List<User>>(
           future: ApiServices().fetchUser(),
           builder: (context, snapshot) {
-            if ((snapshot.hasError) || (!snapshot.hasData))
-              return Container(
-                child: Center(
-                  child: CircularProgressIndicator(),
-                ),
+            if ((snapshot.hasError) || (!snapshot.hasData)) {
+              return const Center(
+                child: CircularProgressIndicator(),
               );
+            }
             List<User>? userList = snapshot.data;
             return ListView.builder(
                 itemCount: userList!.length,
@@ -53,37 +53,38 @@ class _UserListScreenState extends State<UserListScreen> {
 
 class UserItem extends StatelessWidget {
   User? user;
+
   UserItem({this.user});
 
   @override
   Widget build(BuildContext context) {
-    return new Container(
-      margin: new EdgeInsets.only(top: 20.0),
-      child: new Row(
+    return Container(
+      margin: const EdgeInsets.only(top: 20.0),
+      child: Row(
         children: <Widget>[
-          new Container(
+          Container(
             height: 80.0,
             width: 80.0,
-            margin: new EdgeInsets.only(right: 20.0),
-            child: new CircleAvatar(
-              backgroundImage: new NetworkImage(user!.picture!.medium!),
+            margin: const EdgeInsets.only(right: 20.0),
+            child: CircleAvatar(
+              backgroundImage: NetworkImage(user!.picture!.medium!),
             ),
           ),
-          new Column(
+          Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              new Text(
-                user!.name!.first! + " " + user!.name!.last!,
-                style: new TextStyle(
+              Text(
+                "${user!.name!.first!} ${user!.name!.last!}",
+                style: const TextStyle(
                   fontSize: 20.0,
                   color: Colors.black,
                 ),
               ),
-              new Container(
-                margin: new EdgeInsets.only(top: 10.0),
-                child: new Text(
+              Container(
+                margin: const EdgeInsets.only(top: 10.0),
+                child: Text(
                   user!.email!,
-                  style: new TextStyle(
+                  style: const TextStyle(
                     fontSize: 15.0,
                     color: Colors.grey,
                   ),
